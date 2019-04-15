@@ -1,6 +1,3 @@
-
-
-
 .info
 {
     margin: 50px 0;
@@ -13,21 +10,20 @@
             font-size: 12px;
         }
     }
-    p
+    pre 
+    {
+        font-size: 14px;
+    }
+    p, li, table
     {
         font-size: 14px;
 
         @include text_body();
     }
 
-    code
+    h1, h2, h3, h4, h5
     {
-        padding: 3px 5px;
-
-        border-radius: 4px;
-        background: rgba(#000,.05);
-
-        @include text_code(#9012fe);
+        @include text_body();
     }
 
     a
@@ -36,11 +32,11 @@
 
         transition: all .4s;
 
-        @include text_body(#4990e2);
+        @include text_body($info-link-font-color);
 
         &:hover
         {
-            color: darken(#4990e2, 15%);
+            color: darken($info-link-font-color-hover, 15%);
         }
     }
     > div
@@ -81,13 +77,14 @@
             vertical-align: super;
 
             border-radius: 57px;
-            background: #7d8492;
+            background: $info-title-small-background-color;
 
             pre
             {
                 margin: 0;
+                padding: 0;
 
-                @include text_headline(#fff);
+                @include text_headline($info-title-small-pre-font-color);
             }
         }
     }

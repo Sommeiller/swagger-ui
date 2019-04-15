@@ -1,12 +1,9 @@
-import React, { PropTypes } from "react"
-import OriCollapse from "react-collapse"
-import _Markdown from "react-remarkable"
+import React from "react"
+import PropTypes from "prop-types"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
 }
-
-export const Markdown = _Markdown
 
 export class Container extends React.Component {
   render() {
@@ -16,7 +13,7 @@ export class Container extends React.Component {
     if(fullscreen)
       return <section {...rest}/>
 
-    let containerClass = "container" + (full ? "-full" : "")
+    let containerClass = "swagger-container" + (full ? "-full" : "")
     return (
       <section {...rest} className={xclass(rest.className, containerClass)}/>
     )
@@ -59,6 +56,9 @@ export class Col extends React.Component {
     let classesAr = []
 
     for (let device in DEVICES) {
+      if (!DEVICES.hasOwnProperty(device)) {
+        continue
+      }
       let deviceClass = DEVICES[device]
       if(device in this.props) {
         let val = this.props[device]
@@ -73,7 +73,7 @@ export class Col extends React.Component {
       }
     }
 
-    let classes = xclass(rest.className, "clear", ...classesAr)
+    let classes = xclass(rest.className, ...classesAr)
 
     return (
       <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
@@ -127,11 +127,12 @@ export const Input = (props) => <input {...props} />
 
 export class Select extends React.Component {
   static propTypes = {
-    allowedValues: PropTypes.object,
+    allowedValues: PropTypes.array,
     value: PropTypes.any,
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
-    allowEmptyValue: PropTypes.bool
+    allowEmptyValue: PropTypes.bool,
+    className: PropTypes.string
   }
 
   static defaultProps = {
@@ -144,7 +145,7 @@ export class Select extends React.Component {
 
     let value
 
-    if (props.value !== undefined) {
+    if (props.value) {
       value = props.value
     } else {
       value = props.multiple ? [""] : ""
@@ -180,11 +181,11 @@ export class Select extends React.Component {
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select multiple={ multiple } value={ value } onChange={ this.onChange } >
+      <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ item }</option>
+            return <option key={ key } value={ String(item) }>{ String(item) }</option>
           })
         }
       </select>
@@ -195,7 +196,7 @@ export class Select extends React.Component {
 export class Link extends React.Component {
 
   render() {
-    return <a {...this.props} className={xclass(this.props.className, "link")}/>
+    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}/>
   }
 
 }
@@ -241,11 +242,9 @@ export class Collapse extends React.Component {
 
     children = isOpened ? children : null
     return (
-      <OriCollapse isOpened={isOpened}>
-        <NoMargin>
-          {children}
-        </NoMargin>
-      </OriCollapse>
+      <NoMargin>
+        {children}
+      </NoMargin>
     )
   }
 

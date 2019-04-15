@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
   close =() => {
@@ -8,7 +9,7 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST } } = this.props
+    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
 
@@ -22,7 +23,7 @@ export default class AuthorizationPopup extends React.Component {
                 <h3>Available authorizations</h3>
                 <button type="button" className="close-modal" onClick={ this.close }>
                   <svg width="20" height="20">
-                    <use xlinkHref="#close" />
+                    <use href="#close" xlinkHref="#close" />
                   </svg>
                 </button>
               </div>
